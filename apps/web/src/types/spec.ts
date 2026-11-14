@@ -80,7 +80,7 @@ export interface DimensionSpec {
 export interface DrawingSanityCheckResult {
   rule_id: string;
   passed: boolean;
-  severity: "ERROR" | "WARNING";
+  severity: "ERROR" | "WARNING" | "INFO";
   message: string;
   affected_dimension_ids: string[];
 }

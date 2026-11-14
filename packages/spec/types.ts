@@ -113,8 +113,8 @@ export interface FeatureSpec {
 
 export interface DrawingSanityCheckResult {
   rule_id: string;
-  passed: bool;
-  severity: "ERROR" | "WARNING";
+  passed: boolean;
+  severity: "ERROR" | "WARNING" | "INFO";
   message: string;
   affected_dimension_ids: string[];
 }
