@@ -37,6 +37,13 @@ from .job import (
     ValidationReport,
     VisualDiffResult,
 )
+from .diff import (
+    DimensionChange,
+    GeometryDiff,
+    JobVersionDiff,
+    compute_spec_diff,
+    compute_geometry_diff,
+)
 from .rules_engine import (
     run_all_sanity_checks,
     check_dimension_positivity,

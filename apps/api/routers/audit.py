@@ -59,3 +59,51 @@ async def list_audit_logs(
         )
         for l in logs
     ]
+
+
+@router.get("/export/csv")
+async def export_audit_logs_csv(
+    current_user: User = Depends(require_permission(Permission.AUDIT_VIEW)),
+    db: AsyncSession = Depends(get_db),
+):
+    """
+    Exports organization audit trail as an RFC 4180 compliant CSV stream.
+    Used for enterprise governance and QA compliance audits.
+    """
+    import csv
+    import io
+    from fastapi.responses import Response
+
+    query = (
+        select(AuditLog)
+        .where(AuditLog.org_id == current_user.org_id)
+        .order_by(desc(AuditLog.created_at))
+    )
+    res = await db.execute(query)
+    logs = res.scalars().all()
+
+    output = io.StringIO()
+    writer = csv.writer(output, quoting=csv.QUOTE_MINIMAL)
+
+    # Header
+    writer.writerow(["ID", "Timestamp (UTC)", "Actor User ID", "Action", "Target Type", "Target ID", "Details"])
+
+    for log in logs:
+        writer.writerow([
+            log.id,
+            log.created_at.isoformat(),
+            log.user_id or "SYSTEM",
+            log.action,
+            log.target_type,
+            log.target_id or "",
+            str(log.details or {}),
+        ])
+
+    csv_bytes = output.getvalue().encode("utf-8")
+    return Response(
+        content=csv_bytes,
+        media_type="text/csv",
+        headers={
+            "Content-Disposition": f"attachment; filename=audit_trail_{current_user.org_id[:8]}.csv"
+        },
+    )

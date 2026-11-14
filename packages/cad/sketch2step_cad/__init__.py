@@ -7,6 +7,7 @@ from .compiler import FeatureCompiler, CompilationError
 from .validator import GeometryValidator
 from .exporter import StepExporter
 from .report import InspectionReportCompiler
+from .report_pdf import PDFReportGenerator
 from .sandbox import validate_cad_ast, execute_sandboxed_cad_script, SecurityViolation
 from .visual_diff import render_orthographic_views, compare_orthographic_to_drawing
 
@@ -20,6 +21,7 @@ __all__ = [
     "GeometryValidator",
     "StepExporter",
     "InspectionReportCompiler",
+    "PDFReportGenerator",
     "validate_cad_ast",
     "execute_sandboxed_cad_script",
     "SecurityViolation",
