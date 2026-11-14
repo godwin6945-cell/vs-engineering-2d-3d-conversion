@@ -98,6 +98,41 @@ export interface DrawingSpec {
   sanity_checks: DrawingSanityCheckResult[];
 }
 
+export interface GeometryMeasurement {
+  name: string;
+  dimension_id?: string | null;
+  specified_value: number;
+  measured_value: number;
+  tolerance_plus: number;
+  tolerance_minus: number;
+  deviation: number;
+  passed: boolean;
+  source_attribution: string;
+}
+
+export interface ValidationReport {
+  is_valid_solid: boolean;
+  is_shell_closed: boolean;
+  has_self_intersections: boolean;
+  bounding_box_x: number;
+  bounding_box_y: number;
+  bounding_box_z: number;
+  volume_mm3: number;
+  surface_area_mm2: number;
+  face_count: number;
+  edge_count: number;
+  hole_count: number;
+  step_roundtrip_ok: boolean;
+  measurements: GeometryMeasurement[];
+  overall_passed: boolean;
+}
+
+export interface VisualDiffResult {
+  match_percentage: number;
+  identified_discrepancies: string[];
+  rendered_ortho_urls: Record<string, string>;
+}
+
 export interface JobResponse {
   id: string;
   org_id: string;
@@ -106,6 +141,8 @@ export interface JobResponse {
   state: JobState;
   drawing_file_url: string;
   spec?: DrawingSpec | null;
+  validation_report?: ValidationReport | null;
+  visual_diff?: VisualDiffResult | null;
   step_file_url?: string | null;
   cad_script_url?: string | null;
   inspection_report_pdf_url?: string | null;

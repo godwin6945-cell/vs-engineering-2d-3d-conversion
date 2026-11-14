@@ -162,24 +162,120 @@ async def extract_and_reconcile_task(
             return {"error": str(e), "job_id": job_id}
 
 
-async def build_cad_geometry_task(ctx: Dict[str, Any], job_id: str, org_id: str) -> Dict[str, Any]:
+async def build_cad_geometry_task(
+    ctx: Dict[str, Any],
+    job_id: str,
+    org_id: str,
+    cad_script_override: Optional[str] = None,
+) -> Dict[str, Any]:
     """
-    Step 5 & 6: Execute deterministic feature compiler in sandbox container.
+    Step 5, 6 & 7: Execute deterministic feature compiler in sandbox.
     Validates solid geometry, computes measurements, and compares against confirmed spec.
+    Performs visual comparison and renders orthographic projection views.
     """
     logger.info("worker.modeling_started", job_id=job_id, org_id=org_id)
+    from sketch2step_cad.compiler import FeatureCompiler, CompilationError
+    from sketch2step_cad.validator import GeometryValidator
+    from sketch2step_cad.exporter import StepExporter
+    from sketch2step_cad.sandbox import execute_sandboxed_cad_script
+    from sketch2step_cad.visual_diff import render_orthographic_views, compare_orthographic_to_drawing
+
     async with get_tenant_session(org_id) as db:
         job = await db.get(Job, job_id)
         if not job:
             return {"error": "Job not found"}
 
-        job.state = JobState.VALIDATED.value
-        db.add(AuditLog(
-            org_id=org_id,
-            action="pipeline:model_and_validate",
-            target_type="job",
-            target_id=job_id,
-        ))
-        await db.commit()
+        if not job.spec:
+            job.state = JobState.FAILED.value
+            job.failure_reason = "Cannot generate CAD without extracted drawing specification."
+            await db.commit()
+            return {"error": job.failure_reason, "job_id": job_id}
 
-    return {"status": "validated", "job_id": job_id}
+        spec = DrawingSpec.model_validate(job.spec)
+
+        # Enforce accuracy rule
+        if not spec.all_dimensions_verified:
+            job.state = JobState.NEEDS_REVIEW.value
+            job.failure_reason = "Accuracy rule violation: Unverified dimensions pending human confirmation."
+            await db.commit()
+            return {"error": job.failure_reason, "job_id": job_id}
+
+        try:
+            solid = None
+            is_ai_fallback = False
+
+            # Primary Path: Deterministic Feature Compiler
+            if not cad_script_override:
+                try:
+                    compiler = FeatureCompiler()
+                    solid = compiler.compile(spec)
+                    logger.info("worker.compiler_success", job_id=job_id)
+                except Exception as comp_err:
+                    logger.warning("worker.compiler_fallback_triggered", job_id=job_id, reason=str(comp_err))
+                    is_ai_fallback = True
+
+            # Secondary / Fallback Path: Sandboxed CadQuery script
+            if solid is None and cad_script_override:
+                solid = execute_sandboxed_cad_script(cad_script_override)
+                is_ai_fallback = True
+
+            if solid is None:
+                raise CompilationError("Both deterministic compiler and fallback execution failed to produce a valid solid.")
+
+            # Step 6: OpenCascade Geometry Validation & Measurement
+            validator = GeometryValidator()
+            val_report = validator.validate(solid=solid, spec=spec, step_roundtrip_ok=True)
+
+            # Export STEP AP214 file
+            exporter = StepExporter()
+            step_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../artifacts/step")
+            os.makedirs(step_dir, exist_ok=True)
+            step_path = os.path.join(step_dir, f"{job_id}.step")
+            exporter.export_step(solid, step_path)
+            roundtrip_ok, rt_vol = exporter.verify_step_roundtrip(step_path, expected_volume=val_report.volume_mm3)
+            val_report.step_roundtrip_ok = roundtrip_ok
+
+            # Step 7: Headless Orthographic Rendering & Visual Comparison
+            ortho_views = render_orthographic_views(solid)
+            vis_diff = compare_orthographic_to_drawing(ortho_views)
+
+            # Update Job state and reports
+            job.state = JobState.VALIDATED.value
+            job.validation_report = val_report.model_dump()
+            job.visual_diff = vis_diff.model_dump()
+            job.step_file_url = f"/artifacts/step/{job_id}.step"
+
+            audit_details = {
+                "overall_passed": val_report.overall_passed,
+                "volume_mm3": val_report.volume_mm3,
+                "step_roundtrip_ok": val_report.step_roundtrip_ok,
+                "visual_match_percentage": vis_diff.match_percentage,
+                "is_ai_fallback": is_ai_fallback,
+            }
+            if is_ai_fallback:
+                audit_details["warning"] = "AI-generated geometry, extra review required"
+
+            db.add(AuditLog(
+                org_id=org_id,
+                action="pipeline:model_and_validate",
+                target_type="job",
+                target_id=job_id,
+                details=audit_details,
+            ))
+            await db.commit()
+
+            return {
+                "status": "validated",
+                "job_id": job_id,
+                "overall_passed": val_report.overall_passed,
+                "volume_mm3": val_report.volume_mm3,
+                "step_roundtrip_ok": val_report.step_roundtrip_ok,
+                "visual_match_percentage": vis_diff.match_percentage,
+            }
+
+        except Exception as e:
+            logger.error("worker.modeling_failed", job_id=job_id, error=str(e))
+            job.state = JobState.FAILED.value
+            job.failure_reason = f"CAD modeling failed: {str(e)}"
+            await db.commit()
+            return {"error": str(e), "job_id": job_id}
