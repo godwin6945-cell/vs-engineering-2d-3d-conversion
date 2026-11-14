@@ -1,0 +1,128 @@
+services:
+  # -------------------------------------------------------------
+  # PostgreSQL 16 with Row-Level Security
+  # -------------------------------------------------------------
+  postgres:
+    image: postgres:16-alpine
+    container_name: sketch2step_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-sketch2step_admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-sketch2step_secure_dev_pw}
+      POSTGRES_DB: ${POSTGRES_DB:-sketch2step_db}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      - ./postgres/01-init-rls.sql:/docker-entrypoint-initdb.d/01-init-rls.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-sketch2step_admin} -d ${POSTGRES_DB:-sketch2step_db}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # -------------------------------------------------------------
+  # Redis 7 (Caching & ARQ Queue)
+  # -------------------------------------------------------------
+  redis:
+    image: redis:7-alpine
+    container_name: sketch2step_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # -------------------------------------------------------------
+  # MinIO S3-Compatible Object Storage
+  # -------------------------------------------------------------
+  minio:
+    image: minio/minio:RELEASE.2024-05-10T01-41-38Z
+    container_name: sketch2step_minio
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${S3_ACCESS_KEY:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${S3_SECRET_KEY:-minioadmin}
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # -------------------------------------------------------------
+  # FastAPI Backend Service
+  # -------------------------------------------------------------
+  api:
+    build:
+      context: ..
+      dockerfile: infra/Dockerfile.api
+    container_name: sketch2step_api
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-sketch2step_admin}:${POSTGRES_PASSWORD:-sketch2step_secure_dev_pw}@postgres:5432/${POSTGRES_DB:-sketch2step_db}
+      REDIS_URL: redis://redis:6379/0
+      S3_ENDPOINT_URL: http://minio:9000
+      S3_PUBLIC_ENDPOINT_URL: http://localhost:9000
+      SECRET_KEY: ${SECRET_KEY:-sketch2step_super_secret_development_key_change_in_production_32b}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-your-api-key-here}
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      minio:
+        condition: service_started
+
+  # -------------------------------------------------------------
+  # ARQ Background Worker Service
+  # -------------------------------------------------------------
+  worker:
+    build:
+      context: ..
+      dockerfile: infra/Dockerfile.worker
+    container_name: sketch2step_worker
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-sketch2step_admin}:${POSTGRES_PASSWORD:-sketch2step_secure_dev_pw}@postgres:5432/${POSTGRES_DB:-sketch2step_db}
+      REDIS_URL: redis://redis:6379/0
+      S3_ENDPOINT_URL: http://minio:9000
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-your-api-key-here}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  # -------------------------------------------------------------
+  # Next.js 15 Web Frontend
+  # -------------------------------------------------------------
+  web:
+    build:
+      context: ..
+      dockerfile: infra/Dockerfile.web
+    container_name: sketch2step_web
+    restart: unless-stopped
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:8000
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+
+volumes:
+  pg_data:
+  redis_data:
+  minio_data:

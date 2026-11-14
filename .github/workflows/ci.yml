@@ -1,0 +1,87 @@
+name: Sketch2STEP CI
+
+on:
+  push:
+    branches: [main, master, "develop*"]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  backend-checks:
+    name: Backend Lint, Type Check & Test
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: sketch2step_admin
+          POSTGRES_PASSWORD: sketch2step_secure_dev_pw
+          POSTGRES_DB: sketch2step_db
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install .[dev]
+
+      - name: Run Ruff Linting
+        run: |
+          ruff check .
+
+      - name: Run Pytest Suite (RLS Isolation, RBAC, Schemas)
+        env:
+          DATABASE_URL: postgresql+asyncpg://sketch2step_admin:sketch2step_secure_dev_pw@localhost:5432/sketch2step_db
+          REDIS_URL: redis://localhost:6379/0
+          SECRET_KEY: test_secret_key_ci_only_32_characters_long_min
+        run: |
+          pytest apps/api/tests packages/spec/tests -v --cov=apps/api --cov=packages/spec
+
+  frontend-checks:
+    name: Frontend Lint & Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+          cache-dependency-path: apps/web/package.json
+
+      - name: Install Frontend Dependencies
+        working-directory: apps/web
+        run: npm ci || npm install
+
+      - name: Build Next.js Application
+        working-directory: apps/web
+        run: npm run build

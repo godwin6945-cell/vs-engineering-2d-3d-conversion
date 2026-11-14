@@ -1,0 +1,4 @@
+# Sketch2STEP Enterprise Root Docker Compose
+# Delegates directly to infra/docker-compose.yml
+include:
+  - infra/docker-compose.yml

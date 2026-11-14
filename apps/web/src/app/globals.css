@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --background: #090d12;
+    --surface: #111720;
+    --surface-hover: #182230;
+    --border: #222f3e;
+    --border-subtle: #192432;
+    
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+
+    /* Accent & Status Semantics */
+    --accent-teal: #06b6d4;
+    --accent-teal-subtle: rgba(6, 182, 212, 0.12);
+    
+    --status-amber: #f59e0b;
+    --status-amber-bg: rgba(245, 158, 11, 0.12);
+    
+    --status-green: #10b981;
+    --status-green-bg: rgba(16, 185, 129, 0.12);
+    
+    --status-red: #ef4444;
+    --status-red-bg: rgba(239, 68, 68, 0.12);
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--text-primary);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Precision Engineering Numbers: Tabular figures & Mono font */
+  .font-mono-num {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-variant-numeric: tabular-nums;
+  }
+}

@@ -1,0 +1,26 @@
+# Dockerfile for ARQ Background Worker
+FROM python:3.11-slim as runner
+
+WORKDIR /app
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONPATH=/app:/app/packages/spec:/app/packages/cad
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    libpq-dev \
+    libgl1 \
+    libglib2.0-0 \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY pyproject.toml .
+COPY packages/ packages/
+COPY apps/ apps/
+
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir .
+
+RUN useradd -m -u 1000 workeruser
+USER workeruser
+
+CMD ["arq", "apps.worker.worker.WorkerSettings"]
