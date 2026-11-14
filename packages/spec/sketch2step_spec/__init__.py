@@ -37,6 +37,17 @@ from .job import (
     ValidationReport,
     VisualDiffResult,
 )
+from .rules_engine import (
+    run_all_sanity_checks,
+    check_dimension_positivity,
+    check_tolerance_bounds,
+    check_unit_consistency,
+    check_overall_vs_segment_sums,
+    check_hole_placement_and_margins,
+    check_fillet_chamfer_proportions,
+    check_iso_thread_standards,
+    check_pattern_spacing_feasibility,
+)
 
 __all__ = [
     "DimensionSource",

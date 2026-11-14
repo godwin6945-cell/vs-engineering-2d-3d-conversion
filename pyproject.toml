@@ -65,7 +65,8 @@ pythonpath = [
 testpaths = [
     "apps/api/tests",
     "packages/cad/tests",
-    "packages/spec/tests"
+    "packages/spec/tests",
+    "apps/worker/tests"
 ]
 python_files = "test_*.py"
 
