@@ -1,0 +1,175 @@
+{
+  "drawing_number": "DWG-SYN-BKT-19",
+  "title": "L-Bracket Structural Mount #1",
+  "revision": "A",
+  "unit": "mm",
+  "material": "Aluminum 6061-T6",
+  "general_tolerance": "ISO 2768-m",
+  "dimensions": [
+    {
+      "id": "dim_leg1",
+      "name": "Base Leg Length",
+      "value": 80.0,
+      "unit": "mm",
+      "tol_plus": 0.2,
+      "tol_minus": 0.2,
+      "type": "linear",
+      "source": "printed",
+      "confidence": 1.0,
+      "bbox": {
+        "x_min": 0.15,
+        "y_min": 0.2,
+        "x_max": 0.35,
+        "y_max": 0.3
+      },
+      "view": "front",
+      "status": "verified_auto",
+      "evidence": {
+        "claude_pass_a": 80.0,
+        "claude_pass_b": 80.0,
+        "ocr_reading": 80.0,
+        "agreement_score": 1.0,
+        "raw_ocr_text": "80.00"
+      },
+      "notes": null,
+      "confirmed_by_user_id": null
+    },
+    {
+      "id": "dim_wid",
+      "name": "Bracket Width",
+      "value": 50.0,
+      "unit": "mm",
+      "tol_plus": 0.2,
+      "tol_minus": 0.2,
+      "type": "linear",
+      "source": "printed",
+      "confidence": 1.0,
+      "bbox": {
+        "x_min": 0.15,
+        "y_min": 0.2,
+        "x_max": 0.35,
+        "y_max": 0.3
+      },
+      "view": "front",
+      "status": "verified_auto",
+      "evidence": {
+        "claude_pass_a": 50.0,
+        "claude_pass_b": 50.0,
+        "ocr_reading": 50.0,
+        "agreement_score": 1.0,
+        "raw_ocr_text": "50.00"
+      },
+      "notes": null,
+      "confirmed_by_user_id": null
+    },
+    {
+      "id": "dim_leg2",
+      "name": "Vertical Leg Height",
+      "value": 60.0,
+      "unit": "mm",
+      "tol_plus": 0.2,
+      "tol_minus": 0.2,
+      "type": "linear",
+      "source": "printed",
+      "confidence": 1.0,
+      "bbox": {
+        "x_min": 0.15,
+        "y_min": 0.2,
+        "x_max": 0.35,
+        "y_max": 0.3
+      },
+      "view": "front",
+      "status": "verified_auto",
+      "evidence": {
+        "claude_pass_a": 60.0,
+        "claude_pass_b": 60.0,
+        "ocr_reading": 60.0,
+        "agreement_score": 1.0,
+        "raw_ocr_text": "60.00"
+      },
+      "notes": null,
+      "confirmed_by_user_id": null
+    },
+    {
+      "id": "dim_thk",
+      "name": "Wall Thickness",
+      "value": 8.0,
+      "unit": "mm",
+      "tol_plus": 0.1,
+      "tol_minus": 0.1,
+      "type": "linear",
+      "source": "printed",
+      "confidence": 1.0,
+      "bbox": {
+        "x_min": 0.15,
+        "y_min": 0.2,
+        "x_max": 0.35,
+        "y_max": 0.3
+      },
+      "view": "front",
+      "status": "verified_auto",
+      "evidence": {
+        "claude_pass_a": 8.0,
+        "claude_pass_b": 8.0,
+        "ocr_reading": 8.0,
+        "agreement_score": 1.0,
+        "raw_ocr_text": "8.00"
+      },
+      "notes": null,
+      "confirmed_by_user_id": null
+    },
+    {
+      "id": "dim_hol",
+      "name": "Mounting Hole Diameter",
+      "value": 9.0,
+      "unit": "mm",
+      "tol_plus": 0.1,
+      "tol_minus": 0.0,
+      "type": "diameter",
+      "source": "printed",
+      "confidence": 1.0,
+      "bbox": {
+        "x_min": 0.15,
+        "y_min": 0.2,
+        "x_max": 0.35,
+        "y_max": 0.3
+      },
+      "view": "front",
+      "status": "verified_auto",
+      "evidence": {
+        "claude_pass_a": 9.0,
+        "claude_pass_b": 9.0,
+        "ocr_reading": 9.0,
+        "agreement_score": 1.0,
+        "raw_ocr_text": "9.00"
+      },
+      "notes": null,
+      "confirmed_by_user_id": null
+    }
+  ],
+  "features": [
+    {
+      "id": "feat_bracket",
+      "type": "bracket_l",
+      "dimension_ids": [
+        "dim_leg1",
+        "dim_wid",
+        "dim_leg2",
+        "dim_thk"
+      ],
+      "parameters": {
+        "leg1": 80.0,
+        "leg2": 60.0,
+        "width": 50.0,
+        "thickness": 8.0
+      },
+      "parent_feature_id": null
+    }
+  ],
+  "notes": [
+    "Break all sharp edges 0.5mm max.",
+    "Electro-galvanize per ASTM B633."
+  ],
+  "ambiguities": [],
+  "sanity_checks": []
+}

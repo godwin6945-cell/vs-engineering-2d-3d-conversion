@@ -1,4 +1,4 @@
-.PHONY: dev test lint build infra-up infra-down clean
+.PHONY: dev test eval dataset lint build infra-up infra-down clean
 
 # Run local development stack (Postgres, Redis, MinIO via Docker Compose + FastAPI locally)
 dev:
@@ -10,7 +10,17 @@ dev:
 # Run all test suites: API unit & integration tests, RLS isolation tests, CAD spec tests
 test:
 	@echo "Running full Sketch2STEP enterprise test suite..."
-	python -m pytest apps/api/tests packages/spec/tests -v
+	python -m pytest apps/api/tests packages/spec/tests packages/cad/tests -v
+
+# Run the 30-part accuracy evaluation harness and regression gating
+eval:
+	@echo "Running accuracy benchmark harness with regression gating..."
+	python eval/runner.py --fail-on-regression
+
+# Generate or update the 30 synthetic CAD benchmark datasets
+dataset:
+	@echo "Generating 30 synthetic benchmark datasets (STEP + DXF + spec)..."
+	python eval/generate_dataset.py
 
 # Run code formatters and static type linters
 lint:

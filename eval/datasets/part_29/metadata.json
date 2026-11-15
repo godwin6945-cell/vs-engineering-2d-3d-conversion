@@ -1,0 +1,12 @@
+{
+  "id": "part_29",
+  "title": "Bored Bearing Block 100x80",
+  "drawing_number": "DWG-SYN-BLK-29",
+  "category": "Block",
+  "dimension_count": 5,
+  "feature_count": 2,
+  "is_valid_cad": true,
+  "volume_mm3": 362308.085,
+  "surface_area_mm2": 43749.668,
+  "bounding_box": "100.0 x 80.0 x 60.0 mm"
+}

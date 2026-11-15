@@ -1,0 +1,12 @@
+{
+  "id": "part_09",
+  "title": "Milled Fixture Plate 160x100",
+  "drawing_number": "DWG-SYN-PLT-09",
+  "category": "Plate",
+  "dimension_count": 6,
+  "feature_count": 2,
+  "is_valid_cad": true,
+  "volume_mm3": 256500.0,
+  "surface_area_mm2": 43660.0,
+  "bounding_box": "160.0 x 100.0 x 18.0 mm"
+}

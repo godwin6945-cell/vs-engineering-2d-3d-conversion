@@ -1,0 +1,12 @@
+{
+  "id": "part_02",
+  "title": "Turned Flange Plate DN35",
+  "drawing_number": "DWG-SYN-FLG-02",
+  "category": "Flange",
+  "dimension_count": 5,
+  "feature_count": 3,
+  "is_valid_cad": true,
+  "volume_mm3": 122922.667,
+  "surface_area_mm2": 25201.856,
+  "bounding_box": "110.0 x 110.0 x 15.0 mm"
+}

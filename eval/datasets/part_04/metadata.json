@@ -1,0 +1,12 @@
+{
+  "id": "part_04",
+  "title": "Turned Flange Plate DN50",
+  "drawing_number": "DWG-SYN-FLG-04",
+  "category": "Flange",
+  "dimension_count": 5,
+  "feature_count": 3,
+  "is_valid_cad": true,
+  "volume_mm3": 252678.297,
+  "surface_area_mm2": 42106.766,
+  "bounding_box": "140.0 x 140.0 x 20.0 mm"
+}

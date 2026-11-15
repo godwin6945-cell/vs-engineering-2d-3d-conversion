@@ -1,0 +1,12 @@
+{
+  "id": "part_25",
+  "title": "Bored Bearing Block 60x60",
+  "drawing_number": "DWG-SYN-BLK-25",
+  "category": "Block",
+  "dimension_count": 5,
+  "feature_count": 2,
+  "is_valid_cad": true,
+  "volume_mm3": 118710.179,
+  "surface_area_mm2": 19336.836,
+  "bounding_box": "60.0 x 60.0 x 40.0 mm"
+}

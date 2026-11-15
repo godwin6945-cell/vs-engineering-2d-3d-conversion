@@ -1,0 +1,12 @@
+{
+  "id": "part_19",
+  "title": "L-Bracket Structural Mount #1",
+  "drawing_number": "DWG-SYN-BKT-19",
+  "category": "Bracket",
+  "dimension_count": 5,
+  "feature_count": 1,
+  "is_valid_cad": true,
+  "volume_mm3": 52800.0,
+  "surface_area_mm2": 16112.0,
+  "bounding_box": "80.0 x 50.0 x 60.0 mm"
+}

@@ -1,0 +1,12 @@
+{
+  "id": "part_13",
+  "title": "Turned Transmission Shaft Mod-1",
+  "drawing_number": "DWG-SYN-SFT-13",
+  "category": "Shaft",
+  "dimension_count": 4,
+  "feature_count": 1,
+  "is_valid_cad": true,
+  "volume_mm3": 73729.253,
+  "surface_area_mm2": 10917.034,
+  "bounding_box": "40.0 x 40.0 x 80.0 mm"
+}

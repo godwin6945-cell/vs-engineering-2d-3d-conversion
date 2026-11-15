@@ -1,0 +1,12 @@
+{
+  "id": "part_11",
+  "title": "Milled Fixture Plate 150x110",
+  "drawing_number": "DWG-SYN-PLT-11",
+  "category": "Plate",
+  "dimension_count": 6,
+  "feature_count": 2,
+  "is_valid_cad": true,
+  "volume_mm3": 282000.0,
+  "surface_area_mm2": 46520.0,
+  "bounding_box": "150.0 x 110.0 x 20.0 mm"
+}

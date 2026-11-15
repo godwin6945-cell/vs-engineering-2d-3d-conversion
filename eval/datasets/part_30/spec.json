@@ -1,0 +1,189 @@
+{
+  "drawing_number": "DWG-SYN-BLK-30",
+  "title": "Bored Bearing Block 110x90",
+  "revision": "A",
+  "unit": "mm",
+  "material": "Aluminum 6061-T6",
+  "general_tolerance": "ISO 2768-m",
+  "dimensions": [
+    {
+      "id": "dim_blen",
+      "name": "Block Length",
+      "value": 110.0,
+      "unit": "mm",
+      "tol_plus": 0.15,
+      "tol_minus": 0.15,
+      "type": "linear",
+      "source": "printed",
+      "confidence": 1.0,
+      "bbox": {
+        "x_min": 0.15,
+        "y_min": 0.2,
+        "x_max": 0.35,
+        "y_max": 0.3
+      },
+      "view": "front",
+      "status": "verified_auto",
+      "evidence": {
+        "claude_pass_a": 110.0,
+        "claude_pass_b": 110.0,
+        "ocr_reading": 110.0,
+        "agreement_score": 1.0,
+        "raw_ocr_text": "110.00"
+      },
+      "notes": null,
+      "confirmed_by_user_id": null
+    },
+    {
+      "id": "dim_bwid",
+      "name": "Block Width",
+      "value": 90.0,
+      "unit": "mm",
+      "tol_plus": 0.15,
+      "tol_minus": 0.15,
+      "type": "linear",
+      "source": "printed",
+      "confidence": 1.0,
+      "bbox": {
+        "x_min": 0.15,
+        "y_min": 0.2,
+        "x_max": 0.35,
+        "y_max": 0.3
+      },
+      "view": "front",
+      "status": "verified_auto",
+      "evidence": {
+        "claude_pass_a": 90.0,
+        "claude_pass_b": 90.0,
+        "ocr_reading": 90.0,
+        "agreement_score": 1.0,
+        "raw_ocr_text": "90.00"
+      },
+      "notes": null,
+      "confirmed_by_user_id": null
+    },
+    {
+      "id": "dim_bthk",
+      "name": "Block Height",
+      "value": 65.0,
+      "unit": "mm",
+      "tol_plus": 0.1,
+      "tol_minus": 0.1,
+      "type": "linear",
+      "source": "printed",
+      "confidence": 1.0,
+      "bbox": {
+        "x_min": 0.15,
+        "y_min": 0.2,
+        "x_max": 0.35,
+        "y_max": 0.3
+      },
+      "view": "front",
+      "status": "verified_auto",
+      "evidence": {
+        "claude_pass_a": 65.0,
+        "claude_pass_b": 65.0,
+        "ocr_reading": 65.0,
+        "agreement_score": 1.0,
+        "raw_ocr_text": "65.00"
+      },
+      "notes": null,
+      "confirmed_by_user_id": null
+    },
+    {
+      "id": "dim_bore",
+      "name": "Through Bore",
+      "value": 50.0,
+      "unit": "mm",
+      "tol_plus": 0.03,
+      "tol_minus": 0.0,
+      "type": "diameter",
+      "source": "printed",
+      "confidence": 1.0,
+      "bbox": {
+        "x_min": 0.15,
+        "y_min": 0.2,
+        "x_max": 0.35,
+        "y_max": 0.3
+      },
+      "view": "front",
+      "status": "verified_auto",
+      "evidence": {
+        "claude_pass_a": 50.0,
+        "claude_pass_b": 50.0,
+        "ocr_reading": 50.0,
+        "agreement_score": 1.0,
+        "raw_ocr_text": "50.00"
+      },
+      "notes": null,
+      "confirmed_by_user_id": null
+    },
+    {
+      "id": "dim_cb",
+      "name": "Counterbore Diameter",
+      "value": 65.0,
+      "unit": "mm",
+      "tol_plus": 0.1,
+      "tol_minus": 0.0,
+      "type": "diameter",
+      "source": "printed",
+      "confidence": 1.0,
+      "bbox": {
+        "x_min": 0.15,
+        "y_min": 0.2,
+        "x_max": 0.35,
+        "y_max": 0.3
+      },
+      "view": "front",
+      "status": "verified_auto",
+      "evidence": {
+        "claude_pass_a": 65.0,
+        "claude_pass_b": 65.0,
+        "ocr_reading": 65.0,
+        "agreement_score": 1.0,
+        "raw_ocr_text": "65.00"
+      },
+      "notes": null,
+      "confirmed_by_user_id": null
+    }
+  ],
+  "features": [
+    {
+      "id": "feat_base",
+      "type": "block",
+      "dimension_ids": [
+        "dim_blen",
+        "dim_bwid",
+        "dim_bthk"
+      ],
+      "parameters": {
+        "length": 110.0,
+        "width": 90.0,
+        "height": 65.0
+      },
+      "parent_feature_id": null
+    },
+    {
+      "id": "feat_cbore",
+      "type": "hole_counterbore",
+      "dimension_ids": [
+        "dim_bore",
+        "dim_cb"
+      ],
+      "parameters": {
+        "diameter": 50.0,
+        "cbore_diameter": 65.0,
+        "cbore_depth": 20.0,
+        "x": 0.0,
+        "y": 0.0
+      },
+      "parent_feature_id": null
+    }
+  ],
+  "notes": [
+    "Break all sharp edges 0.5mm max.",
+    "Electro-galvanize per ASTM B633."
+  ],
+  "ambiguities": [],
+  "sanity_checks": []
+}

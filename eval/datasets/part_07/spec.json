@@ -1,0 +1,218 @@
+{
+  "drawing_number": "DWG-SYN-PLT-07",
+  "title": "Milled Fixture Plate 120x80",
+  "revision": "A",
+  "unit": "mm",
+  "material": "Aluminum 6061-T6",
+  "general_tolerance": "ISO 2768-m",
+  "dimensions": [
+    {
+      "id": "dim_len",
+      "name": "Overall Length",
+      "value": 120.0,
+      "unit": "mm",
+      "tol_plus": 0.2,
+      "tol_minus": 0.2,
+      "type": "linear",
+      "source": "printed",
+      "confidence": 1.0,
+      "bbox": {
+        "x_min": 0.15,
+        "y_min": 0.2,
+        "x_max": 0.35,
+        "y_max": 0.3
+      },
+      "view": "front",
+      "status": "verified_auto",
+      "evidence": {
+        "claude_pass_a": 120.0,
+        "claude_pass_b": 120.0,
+        "ocr_reading": 120.0,
+        "agreement_score": 1.0,
+        "raw_ocr_text": "120.00"
+      },
+      "notes": null,
+      "confirmed_by_user_id": null
+    },
+    {
+      "id": "dim_wid",
+      "name": "Overall Width",
+      "value": 80.0,
+      "unit": "mm",
+      "tol_plus": 0.2,
+      "tol_minus": 0.2,
+      "type": "linear",
+      "source": "printed",
+      "confidence": 1.0,
+      "bbox": {
+        "x_min": 0.15,
+        "y_min": 0.2,
+        "x_max": 0.35,
+        "y_max": 0.3
+      },
+      "view": "front",
+      "status": "verified_auto",
+      "evidence": {
+        "claude_pass_a": 80.0,
+        "claude_pass_b": 80.0,
+        "ocr_reading": 80.0,
+        "agreement_score": 1.0,
+        "raw_ocr_text": "80.00"
+      },
+      "notes": null,
+      "confirmed_by_user_id": null
+    },
+    {
+      "id": "dim_thk",
+      "name": "Plate Thickness",
+      "value": 12.0,
+      "unit": "mm",
+      "tol_plus": 0.1,
+      "tol_minus": 0.1,
+      "type": "linear",
+      "source": "printed",
+      "confidence": 1.0,
+      "bbox": {
+        "x_min": 0.15,
+        "y_min": 0.2,
+        "x_max": 0.35,
+        "y_max": 0.3
+      },
+      "view": "front",
+      "status": "verified_auto",
+      "evidence": {
+        "claude_pass_a": 12.0,
+        "claude_pass_b": 12.0,
+        "ocr_reading": 12.0,
+        "agreement_score": 1.0,
+        "raw_ocr_text": "12.00"
+      },
+      "notes": null,
+      "confirmed_by_user_id": null
+    },
+    {
+      "id": "dim_plen",
+      "name": "Pocket Length",
+      "value": 50.0,
+      "unit": "mm",
+      "tol_plus": 0.1,
+      "tol_minus": 0.0,
+      "type": "linear",
+      "source": "printed",
+      "confidence": 1.0,
+      "bbox": {
+        "x_min": 0.15,
+        "y_min": 0.2,
+        "x_max": 0.35,
+        "y_max": 0.3
+      },
+      "view": "front",
+      "status": "verified_auto",
+      "evidence": {
+        "claude_pass_a": 50.0,
+        "claude_pass_b": 50.0,
+        "ocr_reading": 50.0,
+        "agreement_score": 1.0,
+        "raw_ocr_text": "50.00"
+      },
+      "notes": null,
+      "confirmed_by_user_id": null
+    },
+    {
+      "id": "dim_pwid",
+      "name": "Pocket Width",
+      "value": 30.0,
+      "unit": "mm",
+      "tol_plus": 0.1,
+      "tol_minus": 0.0,
+      "type": "linear",
+      "source": "printed",
+      "confidence": 1.0,
+      "bbox": {
+        "x_min": 0.15,
+        "y_min": 0.2,
+        "x_max": 0.35,
+        "y_max": 0.3
+      },
+      "view": "front",
+      "status": "verified_auto",
+      "evidence": {
+        "claude_pass_a": 30.0,
+        "claude_pass_b": 30.0,
+        "ocr_reading": 30.0,
+        "agreement_score": 1.0,
+        "raw_ocr_text": "30.00"
+      },
+      "notes": null,
+      "confirmed_by_user_id": null
+    },
+    {
+      "id": "dim_pdep",
+      "name": "Pocket Depth",
+      "value": 6.0,
+      "unit": "mm",
+      "tol_plus": 0.1,
+      "tol_minus": 0.0,
+      "type": "linear",
+      "source": "printed",
+      "confidence": 1.0,
+      "bbox": {
+        "x_min": 0.15,
+        "y_min": 0.2,
+        "x_max": 0.35,
+        "y_max": 0.3
+      },
+      "view": "front",
+      "status": "verified_auto",
+      "evidence": {
+        "claude_pass_a": 6.0,
+        "claude_pass_b": 6.0,
+        "ocr_reading": 6.0,
+        "agreement_score": 1.0,
+        "raw_ocr_text": "6.00"
+      },
+      "notes": null,
+      "confirmed_by_user_id": null
+    }
+  ],
+  "features": [
+    {
+      "id": "feat_base",
+      "type": "plate",
+      "dimension_ids": [
+        "dim_len",
+        "dim_wid",
+        "dim_thk"
+      ],
+      "parameters": {
+        "length": 120.0,
+        "width": 80.0,
+        "thickness": 12.0
+      },
+      "parent_feature_id": null
+    },
+    {
+      "id": "feat_pocket",
+      "type": "pocket_rect",
+      "dimension_ids": [
+        "dim_plen",
+        "dim_pwid",
+        "dim_pdep"
+      ],
+      "parameters": {
+        "length": 50.0,
+        "width": 30.0,
+        "depth": 6.0,
+        "x": 0.0,
+        "y": 0.0
+      },
+      "parent_feature_id": null
+    }
+  ],
+  "notes": [
+    "Break all sharp edges 0.5mm max.",
+    "Electro-galvanize per ASTM B633."
+  ],
+  "ambiguities": [],
+  "sanity_checks": []
+}

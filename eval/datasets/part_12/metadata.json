@@ -1,0 +1,12 @@
+{
+  "id": "part_12",
+  "title": "Milled Fixture Plate 180x120",
+  "drawing_number": "DWG-SYN-PLT-12",
+  "category": "Plate",
+  "dimension_count": 6,
+  "feature_count": 2,
+  "is_valid_cad": true,
+  "volume_mm3": 459000.0,
+  "surface_area_mm2": 62700.0,
+  "bounding_box": "180.0 x 120.0 x 25.0 mm"
+}
