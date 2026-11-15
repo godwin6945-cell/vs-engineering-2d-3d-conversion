@@ -8,6 +8,10 @@ from .user import User
 from .project import Project
 from .job import Job
 from .audit import AuditLog
+from .subscription import Subscription, Invoice
+from .api_key import ApiKey
+from .webhook import WebhookEndpoint, WebhookDelivery
+from .dimension_library import DimensionLibraryItem
 
 __all__ = [
     "Base",
@@ -19,4 +23,10 @@ __all__ = [
     "Project",
     "Job",
     "AuditLog",
+    "Subscription",
+    "Invoice",
+    "ApiKey",
+    "WebhookEndpoint",
+    "WebhookDelivery",
+    "DimensionLibraryItem",
 ]

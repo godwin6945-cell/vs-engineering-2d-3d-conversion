@@ -14,6 +14,11 @@ from apps.api.routers import (
     orgs_router,
     jobs_router,
     audit_router,
+    billing_router,
+    api_keys_router,
+    webhooks_router,
+    dimension_library_router,
+    admin_router,
 )
 
 
@@ -52,6 +57,11 @@ app.include_router(auth_router, prefix=settings.API_V1_PREFIX)
 app.include_router(orgs_router, prefix=settings.API_V1_PREFIX)
 app.include_router(jobs_router, prefix=settings.API_V1_PREFIX)
 app.include_router(audit_router, prefix=settings.API_V1_PREFIX)
+app.include_router(billing_router, prefix=settings.API_V1_PREFIX)
+app.include_router(api_keys_router, prefix=settings.API_V1_PREFIX)
+app.include_router(webhooks_router, prefix=settings.API_V1_PREFIX)
+app.include_router(dimension_library_router, prefix=settings.API_V1_PREFIX)
+app.include_router(admin_router, prefix=settings.API_V1_PREFIX)
 
 
 @app.get("/")
