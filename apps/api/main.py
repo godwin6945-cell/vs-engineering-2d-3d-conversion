@@ -2,6 +2,15 @@
 Main FastAPI Application Entry Point for Sketch2STEP Enterprise.
 """
 
+import sys
+from pathlib import Path
+
+# Automatically ensure internal packages (packages/spec, packages/cad) are in sys.path
+_ROOT = Path(__file__).resolve().parent.parent.parent
+for _p in [_ROOT / "packages" / "spec", _ROOT / "packages" / "cad"]:
+    if str(_p) not in sys.path:
+        sys.path.insert(0, str(_p))
+
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
