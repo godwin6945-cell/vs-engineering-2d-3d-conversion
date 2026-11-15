@@ -9,7 +9,7 @@
   "false_verified_rate": 0.0,
   "pct_jobs_needing_human_input": 0.0,
   "avg_volume_deviation_pct": 0.0,
-  "avg_latency_ms": 21.48,
+  "avg_latency_ms": 19.08,
   "total_estimated_cost_inr": 135.0,
   "gating_rules": {
     "zero_false_verified_passed": true,
@@ -31,7 +31,7 @@
       "is_valid_cad": true,
       "volume_mm3": 67726.4544,
       "volume_deviation_pct": 0.0,
-      "latency_ms": 76.55,
+      "latency_ms": 35.85,
       "estimated_cost_inr": 4.5
     },
     {
@@ -48,7 +48,7 @@
       "is_valid_cad": true,
       "volume_mm3": 122922.6666,
       "volume_deviation_pct": 0.0,
-      "latency_ms": 28.55,
+      "latency_ms": 26.92,
       "estimated_cost_inr": 4.5
     },
     {
@@ -65,7 +65,7 @@
       "is_valid_cad": true,
       "volume_mm3": 182001.8872,
       "volume_deviation_pct": 0.0,
-      "latency_ms": 30.61,
+      "latency_ms": 27.98,
       "estimated_cost_inr": 4.5
     },
     {
@@ -82,7 +82,7 @@
       "is_valid_cad": true,
       "volume_mm3": 252678.2971,
       "volume_deviation_pct": 0.0,
-      "latency_ms": 31.31,
+      "latency_ms": 30.36,
       "estimated_cost_inr": 4.5
     },
     {
@@ -99,7 +99,7 @@
       "is_valid_cad": true,
       "volume_mm3": 353039.616,
       "volume_deviation_pct": 0.0,
-      "latency_ms": 36.62,
+      "latency_ms": 41.1,
       "estimated_cost_inr": 4.5
     },
     {
@@ -116,7 +116,7 @@
       "is_valid_cad": true,
       "volume_mm3": 485513.5097,
       "volume_deviation_pct": 0.0,
-      "latency_ms": 33.84,
+      "latency_ms": 48.95,
       "estimated_cost_inr": 4.5
     },
     {
@@ -133,7 +133,7 @@
       "is_valid_cad": true,
       "volume_mm3": 106200.0,
       "volume_deviation_pct": 0.0,
-      "latency_ms": 16.47,
+      "latency_ms": 14.58,
       "estimated_cost_inr": 4.5
     },
     {
@@ -150,7 +150,7 @@
       "is_valid_cad": true,
       "volume_mm3": 169800.0,
       "volume_deviation_pct": 0.0,
-      "latency_ms": 24.68,
+      "latency_ms": 13.72,
       "estimated_cost_inr": 4.5
     },
     {
@@ -167,7 +167,7 @@
       "is_valid_cad": true,
       "volume_mm3": 256500.0,
       "volume_deviation_pct": 0.0,
-      "latency_ms": 23.06,
+      "latency_ms": 17.61,
       "estimated_cost_inr": 4.5
     },
     {
@@ -184,7 +184,7 @@
       "is_valid_cad": true,
       "volume_mm3": 128800.0,
       "volume_deviation_pct": 0.0,
-      "latency_ms": 21.55,
+      "latency_ms": 14.29,
       "estimated_cost_inr": 4.5
     },
     {
@@ -201,7 +201,7 @@
       "is_valid_cad": true,
       "volume_mm3": 282000.0,
       "volume_deviation_pct": 0.0,
-      "latency_ms": 16.34,
+      "latency_ms": 13.8,
       "estimated_cost_inr": 4.5
     },
     {
@@ -218,7 +218,7 @@
       "is_valid_cad": true,
       "volume_mm3": 459000.0,
       "volume_deviation_pct": 0.0,
-      "latency_ms": 17.27,
+      "latency_ms": 14.52,
       "estimated_cost_inr": 4.5
     },
     {
@@ -235,7 +235,7 @@
       "is_valid_cad": true,
       "volume_mm3": 73729.2526,
       "volume_deviation_pct": 0.0,
-      "latency_ms": 16.24,
+      "latency_ms": 13.58,
       "estimated_cost_inr": 4.5
     },
     {
@@ -252,7 +252,7 @@
       "is_valid_cad": true,
       "volume_mm3": 126449.1043,
       "volume_deviation_pct": 0.0,
-      "latency_ms": 14.58,
+      "latency_ms": 13.22,
       "estimated_cost_inr": 4.5
     },
     {
@@ -269,7 +269,7 @@
       "is_valid_cad": true,
       "volume_mm3": 64811.0564,
       "volume_deviation_pct": 0.0,
-      "latency_ms": 22.5,
+      "latency_ms": 21.81,
       "estimated_cost_inr": 4.5
     },
     {
@@ -286,7 +286,7 @@
       "is_valid_cad": true,
       "volume_mm3": 184458.6127,
       "volume_deviation_pct": 0.0,
-      "latency_ms": 22.79,
+      "latency_ms": 22.99,
       "estimated_cost_inr": 4.5
     },
     {
@@ -303,7 +303,7 @@
       "is_valid_cad": true,
       "volume_mm3": 358730.6111,
       "volume_deviation_pct": 0.0,
-      "latency_ms": 22.07,
+      "latency_ms": 22.77,
       "estimated_cost_inr": 4.5
     },
     {
@@ -320,7 +320,7 @@
       "is_valid_cad": true,
       "volume_mm3": 688990.5388,
       "volume_deviation_pct": 0.0,
-      "latency_ms": 22.17,
+      "latency_ms": 20.57,
       "estimated_cost_inr": 4.5
     },
     {
@@ -337,7 +337,7 @@
       "is_valid_cad": true,
       "volume_mm3": 52800.0,
       "volume_deviation_pct": 0.0,
-      "latency_ms": 15.65,
+      "latency_ms": 8.59,
       "estimated_cost_inr": 4.5
     },
     {
@@ -354,7 +354,7 @@
       "is_valid_cad": true,
       "volume_mm3": 90000.0,
       "volume_deviation_pct": 0.0,
-      "latency_ms": 8.61,
+      "latency_ms": 8.6,
       "estimated_cost_inr": 4.5
     },
     {
@@ -371,7 +371,7 @@
       "is_valid_cad": true,
       "volume_mm3": 131040.0,
       "volume_deviation_pct": 0.0,
-      "latency_ms": 8.6,
+      "latency_ms": 9.1,
       "estimated_cost_inr": 4.5
     },
     {
@@ -388,7 +388,7 @@
       "is_valid_cad": true,
       "volume_mm3": 157920.0,
       "volume_deviation_pct": 0.0,
-      "latency_ms": 8.75,
+      "latency_ms": 9.46,
       "estimated_cost_inr": 4.5
     },
     {
@@ -405,7 +405,7 @@
       "is_valid_cad": true,
       "volume_mm3": 230720.0,
       "volume_deviation_pct": 0.0,
-      "latency_ms": 8.69,
+      "latency_ms": 9.61,
       "estimated_cost_inr": 4.5
     },
     {
@@ -422,7 +422,7 @@
       "is_valid_cad": true,
       "volume_mm3": 304640.0,
       "volume_deviation_pct": 0.0,
-      "latency_ms": 9.37,
+      "latency_ms": 9.93,
       "estimated_cost_inr": 4.5
     },
     {
@@ -439,7 +439,7 @@
       "is_valid_cad": true,
       "volume_mm3": 118710.1791,
       "volume_deviation_pct": 0.0,
-      "latency_ms": 17.85,
+      "latency_ms": 17.18,
       "estimated_cost_inr": 4.5
     },
     {
@@ -456,7 +456,7 @@
       "is_valid_cad": true,
       "volume_mm3": 179191.1982,
       "volume_deviation_pct": 0.0,
-      "latency_ms": 18.37,
+      "latency_ms": 16.98,
       "estimated_cost_inr": 4.5
     },
     {
@@ -473,7 +473,7 @@
       "is_valid_cad": true,
       "volume_mm3": 259182.6932,
       "volume_deviation_pct": 0.0,
-      "latency_ms": 17.56,
+      "latency_ms": 16.8,
       "estimated_cost_inr": 4.5
     },
     {
@@ -490,7 +490,7 @@
       "is_valid_cad": true,
       "volume_mm3": 288261.6885,
       "volume_deviation_pct": 0.0,
-      "latency_ms": 17.74,
+      "latency_ms": 16.12,
       "estimated_cost_inr": 4.5
     },
     {
@@ -507,7 +507,7 @@
       "is_valid_cad": true,
       "volume_mm3": 362308.0852,
       "volume_deviation_pct": 0.0,
-      "latency_ms": 17.54,
+      "latency_ms": 15.74,
       "estimated_cost_inr": 4.5
     },
     {
@@ -524,7 +524,7 @@
       "is_valid_cad": true,
       "volume_mm3": 488776.5618,
       "volume_deviation_pct": 0.0,
-      "latency_ms": 18.34,
+      "latency_ms": 19.58,
       "estimated_cost_inr": 4.5
     }
   ]

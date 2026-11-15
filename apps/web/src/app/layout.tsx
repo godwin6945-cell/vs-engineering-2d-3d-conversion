@@ -1,11 +1,11 @@
 import "./globals.css";
 import React from "react";
 import Link from "next/link";
-import { Layers, ShieldCheck, Compass, Settings, Activity } from "lucide-react";
+import { Layers, ShieldCheck, Compass, Settings, Activity, Building2 } from "lucide-react";
 
 export const metadata = {
-  title: "Sketch2STEP Enterprise | Precision 2D to 3D Conversion",
-  description: "Enterprise CAD reconstruction guaranteeing every dimension is verified before STEP export.",
+  title: "Sketch2STEP Enterprise | 2D to 3D Parametric CAD Reconstruction",
+  description: "Certified manufacturing CAD reconstruction guaranteeing every dimension is verified before STEP export.",
 };
 
 export default function RootLayout({
@@ -14,51 +14,58 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark">
-      <body className="min-h-screen flex flex-col bg-[#090d12] text-slate-100">
-        {/* Precision Engineering Top Navigation Bar */}
-        <header className="h-14 border-b border-[#222f3e] bg-[#111720] px-6 flex items-center justify-between sticky top-0 z-50">
+    <html lang="en">
+      <body className="min-h-screen flex flex-col bg-slate-50 text-slate-900 font-sans antialiased">
+        {/* Precision Engineering Top Navigation Header */}
+        <header className="h-14 border-b border-slate-200 bg-white px-6 flex items-center justify-between sticky top-0 z-50 shadow-xs">
           <div className="flex items-center gap-6">
-            <Link href="/" className="flex items-center gap-2.5 font-semibold tracking-tight text-white">
-              <div className="w-7 h-7 rounded bg-cyan-600/20 border border-cyan-500/40 flex items-center justify-center text-cyan-400">
+            <Link href="/" className="flex items-center gap-2.5 group">
+              <div className="w-8 h-8 rounded-md bg-sky-50 border border-sky-200 flex items-center justify-center text-sky-700 group-hover:bg-sky-100 transition-colors shadow-xs">
                 <Compass className="w-4 h-4" />
               </div>
-              <span className="text-sm font-semibold tracking-wider uppercase">Sketch2STEP</span>
-              <span className="text-[10px] px-1.5 py-0.5 rounded bg-cyan-950 text-cyan-400 border border-cyan-800 font-mono">ENTERPRISE</span>
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-bold tracking-tight text-slate-900">
+                  Sketch2STEP
+                </span>
+                <span className="text-[10px] font-mono font-semibold px-1.5 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-300">
+                  ENTERPRISE CAD
+                </span>
+              </div>
             </Link>
 
             <nav className="hidden md:flex items-center gap-1 text-xs">
               <Link
                 href="/"
-                className="px-3 py-1.5 rounded text-slate-300 hover:text-white hover:bg-slate-800/60 transition-colors flex items-center gap-2"
+                className="px-3 py-1.5 rounded-md font-medium text-slate-700 hover:text-slate-900 hover:bg-slate-100 transition-colors flex items-center gap-2"
               >
-                <Layers className="w-3.5 h-3.5 text-slate-400" />
+                <Layers className="w-3.5 h-3.5 text-slate-500" />
                 Pipeline Dashboard
               </Link>
               <Link
                 href="/settings"
-                className="px-3 py-1.5 rounded text-slate-300 hover:text-white hover:bg-slate-800/60 transition-colors flex items-center gap-2"
+                className="px-3 py-1.5 rounded-md font-medium text-slate-700 hover:text-slate-900 hover:bg-slate-100 transition-colors flex items-center gap-2"
               >
-                <Settings className="w-3.5 h-3.5 text-slate-400" />
-                Settings & BYOK
+                <Settings className="w-3.5 h-3.5 text-slate-500" />
+                Settings & Standards
               </Link>
             </nav>
           </div>
 
           <div className="flex items-center gap-4 text-xs">
-            <div className="flex items-center gap-2 px-2.5 py-1 rounded bg-slate-900 border border-slate-800 text-slate-300">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-              <span className="font-mono text-[11px] text-slate-400">TENANT:</span>
-              <span className="font-medium text-slate-200">Alpha Precision Works</span>
+            <div className="flex items-center gap-2 px-2.5 py-1 rounded-md bg-slate-100 border border-slate-200 text-slate-700">
+              <Building2 className="w-3.5 h-3.5 text-sky-700" />
+              <span className="font-mono text-[11px] text-slate-500">TENANT:</span>
+              <span className="font-semibold text-slate-900">Alpha Precision Works</span>
+              <span className="text-[10px] px-1 rounded bg-slate-200 text-slate-600 font-mono">ISO 9001</span>
             </div>
-            <div className="flex items-center gap-1.5 text-slate-400">
-              <Activity className="w-3.5 h-3.5 text-cyan-400" />
-              <span className="text-[11px]">System Ready</span>
+            <div className="flex items-center gap-1.5 text-slate-600 text-xs">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 ring-2 ring-emerald-100 animate-pulse"></span>
+              <span className="font-medium text-[11px]">System Ready</span>
             </div>
           </div>
         </header>
 
-        {/* Content Area */}
+        {/* Main Workspace Body */}
         <main className="flex-1 flex flex-col">{children}</main>
       </body>
     </html>

@@ -38,7 +38,7 @@ export function ModelViewer({ stepUrl, className = "" }: ModelViewerProps) {
 
     // 1. Scene setup
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color("#090d12");
+    scene.background = new THREE.Color("#f1f5f9"); // Crisp engineering studio slate
     sceneRef.current = scene;
 
     // 2. Camera setup
@@ -55,20 +55,20 @@ export function ModelViewer({ stepUrl, className = "" }: ModelViewerProps) {
     mountRef.current.appendChild(renderer.domElement);
     rendererRef.current = renderer;
 
-    // 4. Lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+    // 4. Studio CAD Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.85);
     scene.add(ambientLight);
 
-    const dirLight1 = new THREE.DirectionalLight(0xffffff, 0.8);
+    const dirLight1 = new THREE.DirectionalLight(0xffffff, 0.9);
     dirLight1.position.set(100, 150, 100);
     scene.add(dirLight1);
 
-    const dirLight2 = new THREE.DirectionalLight(0x38bdf8, 0.4);
+    const dirLight2 = new THREE.DirectionalLight(0xe0f2fe, 0.5);
     dirLight2.position.set(-100, -50, -100);
     scene.add(dirLight2);
 
     // 5. Grid Helper
-    const gridHelper = new THREE.GridHelper(240, 24, 0x334155, 0x1e293b);
+    const gridHelper = new THREE.GridHelper(240, 24, 0x94a3b8, 0xcbd5e1);
     gridHelper.position.y = -25;
     scene.add(gridHelper);
 
@@ -76,20 +76,20 @@ export function ModelViewer({ stepUrl, className = "" }: ModelViewerProps) {
     const meshGroup = new THREE.Group();
     meshGroupRef.current = meshGroup;
 
-    // Base plate
+    // Base plate (Machined 6061-T6 Aluminum finish)
     const baseGeo = new THREE.BoxGeometry(120, 16, 80);
     const cadMaterial = new THREE.MeshStandardMaterial({
-      color: 0x475569,
-      roughness: 0.35,
-      metalness: 0.7,
+      color: 0x64748b,
+      roughness: 0.3,
+      metalness: 0.65,
       wireframe: false,
     });
     const baseMesh = new THREE.Mesh(baseGeo, cadMaterial);
     meshGroup.add(baseMesh);
 
-    // Edges geometry
+    // Edges geometry (Technical drawing line contrast)
     const edgesGeo = new THREE.EdgesGeometry(baseGeo);
-    const lineMaterial = new THREE.LineBasicMaterial({ color: 0x94a3b8, linewidth: 2 });
+    const lineMaterial = new THREE.LineBasicMaterial({ color: 0x1e293b, linewidth: 2 });
     const wireMesh = new THREE.LineSegments(edgesGeo, lineMaterial);
     meshGroup.add(wireMesh);
 
@@ -103,16 +103,30 @@ export function ModelViewer({ stepUrl, className = "" }: ModelViewerProps) {
     bossEdges.position.y = 18;
     meshGroup.add(bossEdges);
 
-    // Center through hole (dark cavity)
-    const holeGeo = new THREE.CylinderGeometry(20, 20, 40, 36);
-    const holeMat = new THREE.MeshBasicMaterial({ color: 0x090d12 });
+    // Center through hole (darker interior bore)
+    const holeGeo = new THREE.CylinderGeometry(20, 20, 42, 36);
+    const holeMat = new THREE.MeshStandardMaterial({ color: 0x334155, roughness: 0.8 });
     const holeMesh = new THREE.Mesh(holeGeo, holeMat);
-    holeMesh.position.y = 12;
+    holeMesh.position.y = 10;
     meshGroup.add(holeMesh);
+
+    // 4 Bolt Holes on PCD
+    const boltHoleGeo = new THREE.CylinderGeometry(6, 6, 20, 24);
+    const boltPositions = [
+      [35, 0],
+      [-35, 0],
+      [0, 25],
+      [0, -25],
+    ];
+    boltPositions.forEach(([bx, bz]) => {
+      const bMesh = new THREE.Mesh(boltHoleGeo, holeMat);
+      bMesh.position.set(bx, 0, bz);
+      meshGroup.add(bMesh);
+    });
 
     scene.add(meshGroup);
 
-    // 7. Simple Mouse Orbit Controls
+    // 7. Mouse Orbit Controls
     let isMouseDown = false;
     let prevMousePos = { x: 0, y: 0 };
 
@@ -212,52 +226,52 @@ export function ModelViewer({ stepUrl, className = "" }: ModelViewerProps) {
   };
 
   return (
-    <div className={`relative flex-1 bg-[#090d12] overflow-hidden select-none ${className}`}>
+    <div className={`relative flex-1 bg-slate-100 overflow-hidden select-none ${className}`}>
       {/* 3D Canvas Mount Point */}
       <div ref={mountRef} className="w-full h-full cursor-grab active:cursor-grabbing" />
 
       {/* Floating 3D Navigation Controls */}
-      <div className="absolute top-4 left-4 z-20 flex items-center gap-1.5 p-1 rounded-lg bg-[#111720]/90 backdrop-blur border border-[#222f3e] shadow-xl text-xs font-mono">
+      <div className="absolute top-4 left-4 z-20 flex items-center gap-1.5 p-1 rounded-md bg-white/95 backdrop-blur border border-slate-300 shadow-sm text-xs font-mono">
         <button
           onClick={() => setCameraView("iso")}
-          className={`px-2.5 py-1 rounded transition-colors ${
-            currentView === "iso" ? "bg-cyan-500 text-slate-950 font-bold" : "text-slate-300 hover:bg-slate-800"
+          className={`px-2.5 py-1 rounded transition-colors font-bold ${
+            currentView === "iso" ? "bg-sky-700 text-white" : "text-slate-700 hover:bg-slate-100"
           }`}
         >
           ISO
         </button>
         <button
           onClick={() => setCameraView("front")}
-          className={`px-2.5 py-1 rounded transition-colors ${
-            currentView === "front" ? "bg-cyan-500 text-slate-950 font-bold" : "text-slate-300 hover:bg-slate-800"
+          className={`px-2.5 py-1 rounded transition-colors font-bold ${
+            currentView === "front" ? "bg-sky-700 text-white" : "text-slate-700 hover:bg-slate-100"
           }`}
         >
           FRONT
         </button>
         <button
           onClick={() => setCameraView("top")}
-          className={`px-2.5 py-1 rounded transition-colors ${
-            currentView === "top" ? "bg-cyan-500 text-slate-950 font-bold" : "text-slate-300 hover:bg-slate-800"
+          className={`px-2.5 py-1 rounded transition-colors font-bold ${
+            currentView === "top" ? "bg-sky-700 text-white" : "text-slate-700 hover:bg-slate-100"
           }`}
         >
           TOP
         </button>
         <button
           onClick={() => setCameraView("side")}
-          className={`px-2.5 py-1 rounded transition-colors ${
-            currentView === "side" ? "bg-cyan-500 text-slate-950 font-bold" : "text-slate-300 hover:bg-slate-800"
+          className={`px-2.5 py-1 rounded transition-colors font-bold ${
+            currentView === "side" ? "bg-sky-700 text-white" : "text-slate-700 hover:bg-slate-100"
           }`}
         >
           SIDE
         </button>
 
-        <div className="w-[1px] h-4 bg-slate-700 mx-1" />
+        <div className="w-[1px] h-4 bg-slate-300 mx-1" />
 
         <button
           onClick={toggleWireframe}
           title="Toggle Wireframe"
           className={`p-1.5 rounded transition-colors ${
-            wireframe ? "bg-cyan-500 text-slate-950 font-bold" : "text-slate-300 hover:bg-slate-800"
+            wireframe ? "bg-sky-700 text-white" : "text-slate-700 hover:bg-slate-100"
           }`}
         >
           <Box className="w-4 h-4" />
@@ -265,9 +279,9 @@ export function ModelViewer({ stepUrl, className = "" }: ModelViewerProps) {
       </div>
 
       {/* STEP AP214 Spec Badge */}
-      <div className="absolute bottom-4 right-4 z-20 flex items-center gap-2 bg-[#111720]/90 backdrop-blur border border-[#222f3e] px-3 py-1.5 rounded text-xs font-mono text-slate-300">
-        <span className="w-2 h-2 rounded-full bg-emerald-400" />
-        <span>STEP AP214 • OpenCascade Solid Valid</span>
+      <div className="absolute bottom-4 right-4 z-20 flex items-center gap-2 bg-white/95 backdrop-blur border border-slate-300 px-3 py-1.5 rounded-md text-xs font-mono text-slate-800 shadow-xs">
+        <span className="w-2 h-2 rounded-full bg-emerald-600" />
+        <span className="font-bold">STEP AP214 • OpenCascade Solid Valid</span>
       </div>
     </div>
   );

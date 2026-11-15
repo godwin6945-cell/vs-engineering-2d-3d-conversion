@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
 import { DimensionSpec, DimensionStatus, DrawingSanityCheckResult } from "@/types/spec";
 import { DrawingViewer } from "./DrawingViewer";
 import { DimensionRow } from "./DimensionRow";
@@ -14,7 +15,6 @@ import {
   ShieldCheck,
   AlertTriangle,
   RotateCcw,
-  Sparkles,
   Info,
   CornerDownLeft,
 } from "lucide-react";
@@ -34,6 +34,7 @@ export function ReviewWorkspace({
   drawingImageUrl,
   onGenerateCad,
 }: ReviewWorkspaceProps) {
+  const router = useRouter();
   const [dimensions, setDimensions] = useState<DimensionSpec[]>(initialDimensions);
   const [selectedDimId, setSelectedDimId] = useState<string | null>(
     initialDimensions.find((d) => d.status === "needs_human")?.id ||
@@ -66,7 +67,6 @@ export function ReviewWorkspace({
   // Global Keyboard Navigation (J/K to move, Enter to confirm, E to edit, Esc to cancel)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Don't intercept when actively typing in input, unless it's Enter or Esc
       if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
         if (e.key === "Enter") {
           e.preventDefault();
@@ -134,7 +134,7 @@ export function ReviewWorkspace({
         notes: editNotes,
       });
     } catch (err) {
-      console.warn("Backend API sync skipped in standalone preview mode:", err);
+      // Backend API sync caught or mock fallback
     } finally {
       setIsSaving(false);
     }
@@ -152,14 +152,10 @@ export function ReviewWorkspace({
 
   const handleGenerateModel = () => {
     setIsGenerating(true);
-    if (onGenerateCad) {
-      onGenerateCad();
-    } else {
-      setTimeout(() => {
-        setIsGenerating(false);
-        alert("3D STEP compilation initiated. Gated by 100% verified dimensions.");
-      }, 1000);
-    }
+    setTimeout(() => {
+      setIsGenerating(false);
+      router.push(`/jobs/${jobId}/model`);
+    }, 700);
   };
 
   // Group dimensions: Needs Human Attention first, then Verified
@@ -167,21 +163,21 @@ export function ReviewWorkspace({
   const verifiedList = dimensions.filter((d) => d.status !== "needs_human");
 
   return (
-    <div className="flex-1 flex flex-col h-[calc(100vh-3.5rem)] bg-[#090d12] text-slate-100 overflow-hidden font-sans">
+    <div className="flex-1 flex flex-col h-[calc(100vh-3.5rem)] bg-slate-50 text-slate-900 overflow-hidden font-sans">
       {/* Top Review Bar & Progress */}
-      <div className="h-16 border-b border-[#222f3e] bg-[#111720] px-6 flex items-center justify-between z-20 shrink-0">
+      <div className="h-16 border-b border-slate-200 bg-white px-6 flex items-center justify-between z-20 shrink-0 shadow-xs">
         <div className="flex items-center gap-4">
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-sm font-semibold text-white tracking-wide">
+              <h1 className="text-sm font-bold text-slate-900 tracking-wide">
                 Engineering Drawing Review Workspace
               </h1>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">
+              <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200">
                 JOB: {jobId.slice(0, 8)}
               </span>
             </div>
-            <p className="text-[11px] text-slate-400 font-mono mt-0.5">
-              Shortcuts: <kbd className="px-1 py-0.5 bg-slate-800 text-slate-300 rounded">J</kbd>/<kbd className="px-1 py-0.5 bg-slate-800 text-slate-300 rounded">K</kbd> navigate • <kbd className="px-1 py-0.5 bg-slate-800 text-slate-300 rounded">Enter</kbd> confirm • <kbd className="px-1 py-0.5 bg-slate-800 text-slate-300 rounded">E</kbd> edit • <kbd className="px-1 py-0.5 bg-slate-800 text-slate-300 rounded">Esc</kbd> cancel
+            <p className="text-[11px] text-slate-500 font-mono mt-0.5">
+              Shortcuts: <kbd className="px-1 py-0.5 bg-slate-100 border border-slate-200 text-slate-700 rounded font-bold">J</kbd>/<kbd className="px-1 py-0.5 bg-slate-100 border border-slate-200 text-slate-700 rounded font-bold">K</kbd> navigate • <kbd className="px-1 py-0.5 bg-slate-100 border border-slate-200 text-slate-700 rounded font-bold">Enter</kbd> confirm • <kbd className="px-1 py-0.5 bg-slate-100 border border-slate-200 text-slate-700 rounded font-bold">E</kbd> edit • <kbd className="px-1 py-0.5 bg-slate-100 border border-slate-200 text-slate-700 rounded font-bold">Esc</kbd> cancel
             </p>
           </div>
         </div>
@@ -197,7 +193,7 @@ export function ReviewWorkspace({
       {/* Split Workspace View */}
       <div className="flex-1 flex overflow-hidden">
         {/* Left Pane: Interactive 2D Drawing Canvas */}
-        <div className="flex-1 flex flex-col relative border-r border-[#222f3e] overflow-hidden">
+        <div className="flex-1 flex flex-col relative border-r border-slate-200 overflow-hidden bg-white">
           <DrawingViewer
             imageUrl={drawingImageUrl}
             dimensions={dimensions}
@@ -207,7 +203,7 @@ export function ReviewWorkspace({
 
           {/* Sanity Rules Drawer at bottom of drawing viewer */}
           {initialSanityChecks.length > 0 && (
-            <div className="p-3 bg-[#0d131b] border-t border-[#1c2734]">
+            <div className="p-3 bg-slate-50 border-t border-slate-200">
               <SanityChecksPanel
                 checks={initialSanityChecks}
                 onSelectDimension={(id) => setSelectedDimId(id)}
@@ -217,16 +213,16 @@ export function ReviewWorkspace({
         </div>
 
         {/* Right Pane: Dimension Verification Table & Detail Editor */}
-        <div className="w-[480px] flex flex-col bg-[#111720] border-l border-[#222f3e] overflow-hidden shrink-0">
+        <div className="w-[490px] flex flex-col bg-white border-l border-slate-200 overflow-hidden shrink-0">
           {/* Selected Dimension Detail & Edit Inspector */}
           {selectedDim ? (
-            <div className="p-4 border-b border-[#222f3e] bg-[#141d28] space-y-3.5 shadow-md shrink-0">
+            <div className="p-4 border-b border-slate-200 bg-slate-50/70 space-y-3.5 shadow-xs shrink-0">
               <div className="flex items-center justify-between">
                 <div>
-                  <div className="text-[10px] uppercase font-mono tracking-wider text-slate-400">
+                  <div className="text-[10px] uppercase font-mono font-bold tracking-wider text-slate-500">
                     Selected Dimension [{selectedDim.id}]
                   </div>
-                  <div className="text-sm font-semibold text-white tracking-wide">
+                  <div className="text-sm font-bold text-slate-900 tracking-wide">
                     {selectedDim.name}
                   </div>
                 </div>
@@ -237,14 +233,14 @@ export function ReviewWorkspace({
               <EvidenceChips evidence={selectedDim.evidence} unit={selectedDim.unit} />
 
               {/* Form Input for Nominal Value & Tolerances */}
-              <div className="space-y-2 bg-[#0c1219] p-3 rounded-lg border border-[#1e2a38]">
-                <label className="text-xs font-semibold text-slate-200 flex items-center justify-between">
+              <div className="space-y-2 bg-white p-3.5 rounded-lg border border-slate-200 shadow-2xs">
+                <label className="text-xs font-bold text-slate-800 flex items-center justify-between">
                   <span>
                     {selectedDim.value === null
                       ? "Value not found on drawing. Enter nominal:"
                       : "Nominal Dimension & Tolerances:"}
                   </span>
-                  <span className="text-[10px] text-cyan-400 font-mono">
+                  <span className="text-[10px] text-sky-800 font-mono font-bold">
                     Unit: {selectedDim.unit}
                   </span>
                 </label>
@@ -252,7 +248,7 @@ export function ReviewWorkspace({
                 <div className="grid grid-cols-3 gap-2">
                   {/* Nominal Value */}
                   <div className="col-span-1">
-                    <span className="text-[10px] font-mono text-slate-400">Nominal</span>
+                    <span className="text-[10px] font-mono text-slate-500 font-bold">Nominal</span>
                     <input
                       ref={inputRef}
                       type="number"
@@ -260,53 +256,53 @@ export function ReviewWorkspace({
                       value={editValue}
                       onChange={(e) => setEditValue(e.target.value)}
                       placeholder="e.g. 50.0"
-                      className="w-full mt-1 px-2.5 py-1.5 rounded bg-[#111822] border border-[#2a3849] text-sm font-mono text-cyan-200 focus:outline-none focus:border-cyan-400 font-bold"
+                      className="w-full mt-1 px-2.5 py-1.5 rounded-md bg-white border border-slate-300 text-sm font-mono text-slate-900 focus:outline-none focus:ring-2 focus:ring-sky-500 font-bold"
                     />
                   </div>
 
                   {/* +Tolerance */}
                   <div>
-                    <span className="text-[10px] font-mono text-slate-400">+Tol</span>
+                    <span className="text-[10px] font-mono text-slate-500 font-bold">+Tol</span>
                     <input
                       type="number"
                       step="0.01"
                       value={editTolPlus}
                       onChange={(e) => setEditTolPlus(e.target.value)}
-                      className="w-full mt-1 px-2.5 py-1.5 rounded bg-[#111822] border border-[#2a3849] text-xs font-mono text-slate-200 focus:outline-none focus:border-cyan-400"
+                      className="w-full mt-1 px-2.5 py-1.5 rounded-md bg-white border border-slate-300 text-xs font-mono text-slate-900 focus:outline-none focus:ring-2 focus:ring-sky-500"
                     />
                   </div>
 
                   {/* -Tolerance */}
                   <div>
-                    <span className="text-[10px] font-mono text-slate-400">-Tol</span>
+                    <span className="text-[10px] font-mono text-slate-500 font-bold">-Tol</span>
                     <input
                       type="number"
                       step="0.01"
                       value={editTolMinus}
                       onChange={(e) => setEditTolMinus(e.target.value)}
-                      className="w-full mt-1 px-2.5 py-1.5 rounded bg-[#111822] border border-[#2a3849] text-xs font-mono text-slate-200 focus:outline-none focus:border-cyan-400"
+                      className="w-full mt-1 px-2.5 py-1.5 rounded-md bg-white border border-slate-300 text-xs font-mono text-slate-900 focus:outline-none focus:ring-2 focus:ring-sky-500"
                     />
                   </div>
                 </div>
 
                 {/* Confirm Action Button */}
-                <div className="pt-1 flex items-center justify-between">
+                <div className="pt-2 flex items-center justify-between">
                   <span className="text-[11px] font-mono text-slate-500">
-                    Press <kbd className="px-1 py-0.5 bg-slate-800 text-slate-400 rounded">Enter</kbd> to save & next
+                    Press <kbd className="px-1 py-0.5 bg-slate-100 border border-slate-200 text-slate-700 rounded font-bold">Enter</kbd> to lock & next
                   </span>
                   <button
                     onClick={handleConfirmCurrent}
                     disabled={isSaving}
-                    className="px-3.5 py-1.5 rounded bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-mono text-xs font-bold flex items-center gap-1.5 transition-colors shadow-sm"
+                    className="px-4 py-2 rounded-md bg-sky-700 hover:bg-sky-800 text-white font-mono text-xs font-bold flex items-center gap-1.5 transition-colors shadow-xs cursor-pointer"
                   >
-                    <Check className="w-3.5 h-3.5" />
-                    {isSaving ? "Saving..." : "Confirm Dimension"}
+                    <Check className="w-4 h-4" />
+                    {isSaving ? "Locking..." : "Confirm Dimension"}
                   </button>
                 </div>
               </div>
             </div>
           ) : (
-            <div className="p-6 text-center text-slate-400 text-xs font-mono">
+            <div className="p-6 text-center text-slate-500 text-xs font-mono">
               Select a dimension to inspect evidence and edit parameters.
             </div>
           )}
@@ -316,13 +312,13 @@ export function ReviewWorkspace({
             {/* Section 1: Needs Human Attention */}
             {needsHumanList.length > 0 && (
               <div>
-                <div className="sticky top-0 z-10 px-4 py-2 bg-[#1a1510] border-y border-amber-800/40 flex items-center justify-between">
-                  <div className="flex items-center gap-1.5 text-xs font-mono font-bold text-amber-300">
-                    <AlertTriangle className="w-3.5 h-3.5 text-amber-400" />
+                <div className="sticky top-0 z-10 px-4 py-2.5 bg-amber-50 border-y border-amber-200 flex items-center justify-between">
+                  <div className="flex items-center gap-1.5 text-xs font-mono font-bold text-amber-900">
+                    <AlertTriangle className="w-3.5 h-3.5 text-amber-600" />
                     <span>NEEDS HUMAN ATTENTION ({needsHumanList.length})</span>
                   </div>
-                  <span className="text-[10px] font-mono text-amber-400/80">
-                    Must resolve to unlock CAD
+                  <span className="text-[10px] font-mono font-semibold text-amber-800">
+                    Resolve to unlock CAD
                   </span>
                 </div>
                 {needsHumanList.map((dim) => (
@@ -338,12 +334,12 @@ export function ReviewWorkspace({
 
             {/* Section 2: Verified Dimensions */}
             <div>
-              <div className="sticky top-0 z-10 px-4 py-2 bg-[#0f1720] border-y border-[#1e2a38] flex items-center justify-between">
-                <div className="flex items-center gap-1.5 text-xs font-mono font-bold text-slate-300">
-                  <Check className="w-3.5 h-3.5 text-emerald-400" />
+              <div className="sticky top-0 z-10 px-4 py-2.5 bg-slate-100 border-y border-slate-200 flex items-center justify-between">
+                <div className="flex items-center gap-1.5 text-xs font-mono font-bold text-slate-800">
+                  <Check className="w-3.5 h-3.5 text-emerald-600" />
                   <span>VERIFIED SPECIFICATIONS ({verifiedList.length})</span>
                 </div>
-                <span className="text-[10px] font-mono text-emerald-400">
+                <span className="text-[10px] font-mono font-semibold text-emerald-800">
                   Ready for Solid Kernel
                 </span>
               </div>

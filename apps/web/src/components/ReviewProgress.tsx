@@ -40,17 +40,17 @@ export function ReviewProgress({
     <div className={`flex items-center gap-6 ${className}`}>
       {/* Detailed Status Breakdown */}
       <div className="hidden lg:flex items-center gap-3 text-xs font-mono">
-        <span className="flex items-center gap-1.5 text-emerald-400">
-          <span className="w-2 h-2 rounded-full bg-emerald-400" />
-          {autoVerified} Auto
+        <span className="flex items-center gap-1.5 text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+          <span className="w-2 h-2 rounded-full bg-emerald-600" />
+          {autoVerified} Auto-Verified
         </span>
-        <span className="flex items-center gap-1.5 text-cyan-400">
-          <span className="w-2 h-2 rounded-full bg-cyan-400" />
+        <span className="flex items-center gap-1.5 text-sky-800 bg-sky-50 px-2 py-0.5 rounded border border-sky-200">
+          <span className="w-2 h-2 rounded-full bg-sky-600" />
           {humanConfirmed} Confirmed
         </span>
         {needsHuman > 0 && (
-          <span className="flex items-center gap-1.5 text-amber-400 animate-pulse">
-            <span className="w-2 h-2 rounded-full bg-amber-400" />
+          <span className="flex items-center gap-1.5 text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">
+            <span className="w-2 h-2 rounded-full bg-amber-600" />
             {needsHuman} Attention Needed
           </span>
         )}
@@ -59,18 +59,18 @@ export function ReviewProgress({
       {/* Progress Bar & Metric */}
       <div className="flex items-center gap-3">
         <div className="text-right">
-          <div className="text-xs font-mono font-bold text-white">
+          <div className="text-xs font-mono font-bold text-slate-900">
             {verified} of {total} verified
           </div>
-          <div className="text-[10px] font-mono text-slate-400">
+          <div className="text-[10px] font-mono text-slate-500">
             {percentage}% complete
           </div>
         </div>
 
-        <div className="w-32 h-2.5 rounded-full bg-slate-800 border border-slate-700/60 overflow-hidden relative">
+        <div className="w-32 h-2.5 rounded-full bg-slate-200 overflow-hidden relative border border-slate-300">
           <div
             className={`h-full transition-all duration-300 ${
-              isAllVerified ? "bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.6)]" : "bg-amber-400"
+              isAllVerified ? "bg-emerald-600" : "bg-amber-500"
             }`}
             style={{ width: `${percentage}%` }}
           />
@@ -81,20 +81,20 @@ export function ReviewProgress({
       <button
         disabled={!isAllVerified || isGenerating}
         onClick={onGenerateClick}
-        className={`px-4 py-2 rounded-md text-xs font-mono font-semibold tracking-wider uppercase transition-all flex items-center gap-2 select-none ${
+        className={`px-4 py-2 rounded-md text-xs font-mono font-bold tracking-wider uppercase transition-all flex items-center gap-2 select-none ${
           isAllVerified
-            ? "bg-cyan-500 hover:bg-cyan-400 text-slate-950 cursor-pointer shadow-lg shadow-cyan-950 ring-1 ring-cyan-300"
-            : "bg-slate-800 text-slate-500 cursor-not-allowed border border-slate-700/80"
+            ? "bg-sky-700 hover:bg-sky-800 text-white cursor-pointer shadow-sm hover:shadow"
+            : "bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200"
         }`}
       >
         {isAllVerified ? (
           <>
-            <ShieldCheck className="w-4 h-4 text-slate-950" />
+            <ShieldCheck className="w-4 h-4 text-white" />
             {isGenerating ? "Synthesizing CAD..." : "Generate 3D Solid Model"}
           </>
         ) : (
           <>
-            <ShieldAlert className="w-4 h-4 text-amber-500" />
+            <ShieldAlert className="w-4 h-4 text-amber-600" />
             Verification Required ({needsHuman})
           </>
         )}

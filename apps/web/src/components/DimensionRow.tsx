@@ -3,7 +3,7 @@
 import React from "react";
 import { DimensionSpec } from "@/types/spec";
 import { StatusBadge } from "./StatusBadge";
-import { ChevronRight, Edit3, Compass } from "lucide-react";
+import { ChevronRight, Edit3 } from "lucide-react";
 
 interface DimensionRowProps {
   dimension: DimensionSpec;
@@ -32,73 +32,73 @@ export function DimensionRow({
           onSelect(dimension.id);
         }
       }}
-      className={`p-3.5 cursor-pointer flex items-center justify-between transition-all select-none border-b border-[#1c2734] outline-none ${
+      className={`p-3.5 cursor-pointer flex items-center justify-between transition-all select-none border-b border-slate-200 outline-none ${
         isSelected
-          ? "bg-cyan-950/30 border-l-4 border-l-cyan-400 pl-2.5"
+          ? "bg-sky-50/80 border-l-4 border-l-sky-600 pl-2.5"
           : isNeedsHuman
-          ? "bg-amber-950/15 hover:bg-amber-950/25 border-l-2 border-l-amber-500/50"
-          : "hover:bg-[#151e2a] border-l-2 border-l-transparent"
+          ? "bg-amber-50/60 hover:bg-amber-50/90 border-l-4 border-l-amber-500 pl-2.5"
+          : "hover:bg-slate-50 border-l-4 border-l-transparent pl-2.5"
       }`}
     >
       {/* Left Info: Name, ID, Type, Tolerance */}
       <div className="space-y-1">
         <div className="flex items-center gap-2">
           <span
-            className={`font-semibold text-xs tracking-wide ${
-              isSelected ? "text-cyan-200" : isNeedsHuman ? "text-amber-100" : "text-slate-100"
+            className={`font-bold text-xs tracking-wide ${
+              isSelected ? "text-sky-900" : isNeedsHuman ? "text-amber-900" : "text-slate-900"
             }`}
           >
             {dimension.name}
           </span>
-          <span className="font-mono text-[10px] text-slate-400">
+          <span className="font-mono text-[10px] text-slate-500 font-semibold">
             [{dimension.id}]
           </span>
-          <span className="px-1.5 py-0.2 rounded text-[9px] font-mono uppercase bg-slate-800 text-slate-300">
+          <span className="px-1.5 py-0.2 rounded text-[9px] font-mono uppercase bg-slate-100 text-slate-700 border border-slate-200">
             {dimension.view}
           </span>
         </div>
 
-        <div className="flex items-center gap-2 text-[11px] font-mono text-slate-400">
-          <span className="capitalize">{dimension.type}</span>
+        <div className="flex items-center gap-2 text-[11px] font-mono text-slate-500">
+          <span>Type: {dimension.type}</span>
           <span>•</span>
           <span>
-            +{dimension.tol_plus} / -{dimension.tol_minus}
+            Tol: +{dimension.tol_plus || 0.0} / -{dimension.tol_minus || 0.0}
           </span>
-          {dimension.source !== "printed" && (
+          {dimension.source === "missing" && (
             <>
               <span>•</span>
-              <span className="text-amber-400 font-semibold uppercase text-[10px]">
-                {dimension.source}
-              </span>
+              <span className="text-amber-700 font-bold">Omitted on 2D view</span>
             </>
           )}
         </div>
       </div>
 
-      {/* Right Info: Nominal Value, Status Badge & Edit Indicator */}
-      <div className="flex items-center gap-3">
-        <div className="text-right">
+      {/* Right Info: Numeric Value Callout & Status */}
+      <div className="flex items-center gap-3 text-right">
+        <div>
           <div
-            className={`font-mono text-sm font-bold tracking-tight ${
+            className={`text-sm font-mono font-bold ${
               hasValue
                 ? isSelected
-                  ? "text-cyan-300"
-                  : "text-slate-100"
-                : "text-amber-400 font-semibold italic text-xs"
+                  ? "text-sky-700"
+                  : isNeedsHuman
+                  ? "text-amber-800"
+                  : "text-slate-900"
+                : "text-amber-700 italic text-xs"
             }`}
           >
-            {hasValue ? `${dimension.value} ${dimension.unit}` : "NOT SPECIFIED"}
+            {hasValue ? `${dimension.value?.toFixed(2)} ${dimension.unit}` : "Missing Value"}
           </div>
-          <div className="text-[10px] font-mono text-slate-500">
-            conf: {(dimension.confidence * 100).toFixed(0)}%
+          <div className="mt-0.5">
+            <StatusBadge status={dimension.status} />
           </div>
         </div>
 
-        <StatusBadge status={dimension.status} showIcon={false} />
-
-        {isSelected && (
-          <ChevronRight className="w-4 h-4 text-cyan-400 animate-pulse" />
-        )}
+        <ChevronRight
+          className={`w-4 h-4 transition-transform ${
+            isSelected ? "text-sky-700 translate-x-0.5" : "text-slate-400"
+          }`}
+        />
       </div>
     </div>
   );

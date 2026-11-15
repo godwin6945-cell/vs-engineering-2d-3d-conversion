@@ -102,37 +102,37 @@ export default async function ModelReviewPage({
   const { id } = await params;
 
   return (
-    <div className="flex-1 flex flex-col bg-[#090d12] text-slate-100 font-sans min-h-[calc(100vh-3.5rem)]">
+    <div className="flex-1 flex flex-col bg-slate-50 text-slate-900 font-sans min-h-[calc(100vh-3.5rem)]">
       {/* Top Header Bar */}
-      <div className="h-16 border-b border-[#222f3e] bg-[#111720] px-6 flex items-center justify-between z-20 shrink-0">
+      <div className="h-16 border-b border-slate-200 bg-white px-6 flex items-center justify-between z-20 shrink-0 shadow-xs">
         <div className="flex items-center gap-4">
           <Link
             href={`/jobs/${id}/review`}
-            className="p-1.5 rounded hover:bg-slate-800 text-slate-400 hover:text-white transition-colors"
+            className="p-1.5 rounded-md hover:bg-slate-100 text-slate-600 hover:text-slate-900 transition-colors"
             title="Back to Review Workspace"
           >
             <ArrowLeft className="w-5 h-5" />
           </Link>
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-sm font-semibold text-white tracking-wide">
+              <h1 className="text-sm font-bold text-slate-900 tracking-wide">
                 3D Parametric Solid Model Review
               </h1>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800">
+              <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 border border-emerald-200">
                 STATE: VALIDATED
               </span>
             </div>
-            <p className="text-[11px] text-slate-400 font-mono mt-0.5">
-              Kernel: OpenCascade 7.7 • Modeled via Deterministic Feature Compiler
+            <p className="text-[11px] text-slate-500 font-mono mt-0.5">
+              Kernel: OpenCascade 7.7.2 • Modeled via Deterministic Feature Compiler
             </p>
           </div>
         </div>
 
-        {/* Action Buttons to Sign-off / Export */}
+        {/* Action Button to Sign-off / Export */}
         <div className="flex items-center gap-3">
           <Link
             href={`/jobs/${id}/export`}
-            className="px-4 py-2 rounded-md bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-mono text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-all shadow-md shadow-cyan-950"
+            className="px-4 py-2 rounded-md bg-sky-700 hover:bg-sky-800 text-white font-mono text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-all shadow-xs cursor-pointer"
           >
             <CheckCheck className="w-4 h-4" />
             Proceed to Sign-off & Export
@@ -144,7 +144,7 @@ export default async function ModelReviewPage({
       <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-6 p-6 overflow-y-auto">
         {/* Left Column: Interactive 3D WebGL Model Viewer */}
         <div className="flex flex-col space-y-4">
-          <div className="h-[480px] rounded-lg border border-[#222f3e] overflow-hidden shadow-2xl relative">
+          <div className="h-[480px] rounded-lg border border-slate-300 overflow-hidden shadow-xs relative bg-slate-100">
             <ModelViewer />
           </div>
 
