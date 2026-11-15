@@ -35,8 +35,15 @@ from apps.api.routers import (
 async def lifespan(app: FastAPI):
     # Startup: ensure tables created if development
     if settings.DEBUG:
-        async with engine.begin() as conn:
-            await conn.run_sync(Base.metadata.create_all)
+        try:
+            async with engine.begin() as conn:
+                await conn.run_sync(Base.metadata.create_all)
+        except Exception as exc:
+            import logging
+            logging.getLogger("uvicorn.error").warning(
+                f"Database initialization notice: {exc}. "
+                "For local standalone dev, DATABASE_URL=sqlite+aiosqlite:///./sketch2step.db is enabled."
+            )
     yield
     # Shutdown
     await engine.dispose()

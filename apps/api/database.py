@@ -12,13 +12,21 @@ from sqlalchemy.ext.asyncio import (
 from sqlalchemy import text
 from .config import settings
 
-# Engine configuration
+# Engine configuration: supports both async PostgreSQL and local async SQLite
+is_sqlite = settings.DATABASE_URL.startswith("sqlite")
+engine_kwargs = {"echo": False}
+if is_sqlite:
+    engine_kwargs["connect_args"] = {"check_same_thread": False}
+else:
+    engine_kwargs.update({
+        "pool_pre_ping": True,
+        "pool_size": 10,
+        "max_overflow": 20,
+    })
+
 engine = create_async_engine(
     settings.DATABASE_URL,
-    echo=False,
-    pool_pre_ping=True,
-    pool_size=10,
-    max_overflow=20,
+    **engine_kwargs,
 )
 
 AsyncSessionLocal = async_sessionmaker(
